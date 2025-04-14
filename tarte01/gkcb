@@ -1,0 +1,84 @@
+server {
+    server_name gkcb.fr www.gkcb.fr;
+
+    location = /favicon.ico {
+        alias /var/www/images/favicon.ico;
+    }
+
+    location /pywer4 {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/tarte/dev/pywer4/pywer4.sock;
+    }
+
+    location / {
+        #proxy_pass https://wiki.gkcb.fr;
+        return 301 https://wiki.gkcb.fr;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/guillaume.gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/guillaume.gkcb.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+server {
+    server_name benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr;
+
+    if ($host = benjamin.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=benjamin;
+    }
+
+    if ($host = camille.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=camille;
+    }
+
+    if ($host = karine.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=karine;
+    }
+
+    if ($host = guillaume.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=guillaume;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/guillaume.gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/guillaume.gkcb.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = gkcb.fr) {
+        return 301 https://#host$request_uri;
+    } 
+
+    if ($host = www.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }
+
+    if ($host = benjamin.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    } 
+    
+    if ($host = camille.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }  
+
+    if ($host = karine.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }  
+
+    if ($host = guillaume.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }  
+
+    server_name gkcb.fr www.gkcb.fr benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}

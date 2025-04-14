@@ -1,0 +1,15 @@
+
+## IRC Weechat
+/server add gkcb irc.gkcb.fr/6667 -notls -password=*********
+/connect gkcb
+/join #gkcb
+
+# Post Docker install
+
+sudo mv /var/lib/docker /mnt/SSD_externe/
+
+sudo nano /etc/docker/daemon.json
+{
+ "data-root": "/mnt/new"
+}
+
