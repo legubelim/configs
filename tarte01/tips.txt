@@ -4,12 +4,9 @@
 /connect gkcb
 /join #gkcb
 
-# Post Docker install
+# running nextcloud
+sudo docker run -d --rm -v /mnt/SSD_externe/nextcloud:/var/www/html -p 8088:80 nextcloud
 
-sudo mv /var/lib/docker /mnt/SSD_externe/
 
-sudo nano /etc/docker/daemon.json
-{
- "data-root": "/mnt/new"
-}
+
 
