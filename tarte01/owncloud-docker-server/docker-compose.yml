@@ -3,6 +3,10 @@ version: "3"
 volumes:
   files:
     driver: local
+    #driver_opts:
+    #  type: none
+    #  device: "/mnt/SSD_externe/owncloud/data"
+    #  o: bind
   mysql:
     driver: local
   redis:
@@ -37,6 +41,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
+      #- files:/mnt/data
       - /mnt/SSD_externe/owncloud/data:/mnt/data
 
   mariadb:
@@ -56,7 +61,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql 
 
   redis:
     image: redis:6

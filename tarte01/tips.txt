@@ -4,8 +4,6 @@
 /connect gkcb
 /join #gkcb
 
-# running nextcloud
-sudo docker run -d --rm -v /mnt/SSD_externe/nextcloud:/var/www/html -p 8088:80 nextcloud
 
 
 
