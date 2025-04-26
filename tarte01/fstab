@@ -2,3 +2,5 @@ LABEL=writable	/	ext4	defaults	0	1
 LABEL=system-boot	/boot/firmware	vfat	defaults	0	1
 # USB External drive
 UUID=48C63F51C63F3F0E	/mnt/SSD_externe	ntfs	defaults,uid=www-data,gid=www-data,dmask=007	0	0
+# Samsung drive SSD2 externe
+UUID=a7b60429-ebab-4460-9f98-b7e22fa95883	/mnt/SSD2	ext4	defaults	0	0
