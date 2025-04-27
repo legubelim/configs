@@ -1,6 +1,17 @@
 LABEL=writable	/	ext4	defaults	0	1
 LABEL=system-boot	/boot/firmware	vfat	defaults	0	1
-# USB External drive
+
+##### USB External drives ####
+# seagate
 UUID=48C63F51C63F3F0E	/mnt/SSD_externe	ntfs	defaults,uid=www-data,gid=www-data,dmask=007	0	0
 # Samsung drive SSD2 externe
 UUID=a7b60429-ebab-4460-9f98-b7e22fa95883	/mnt/SSD2	ext4	defaults	0	0
+
+##### Freebox Samba drives
+# Samsung drive SSD2 externe
+//freebox-server.local/ssd2/	/mnt/SSD2	cifs	credentials=/root/.smbfreeboxcredentials,users,noauto,uid=tarte,gid=users,sec=ntlm,_netdev	0	0
+# sudo mount -t cifs -o credentials=/root/.smbfreeboxcredentials,uid=tarte,gid=users //freebox-server.local/ssd2 /mnt/SSD2
+
+# USB key CIBOX for testing
+#//freebox-server.local/usbkeycibox/   /media/usbkeycibox       cifs    credentials=/root/.smbfreeboxcredentials,users,noauto,uid=tarte,gid=users,sec=ntlm,_netdev	0	0
+# sudo mount -t cifs -o credentials=/root/.smbfreeboxcredentials,uid=tarte,gid=users //freebox-server.local/usbkeycibox /media/usbkeycibox
