@@ -1,7 +1,7 @@
 
 server {
     server_name wiki.gkcb.fr;
-    root /mnt/SSD_externe/dokuwiki;
+    root /mnt/SSD1/dokuwiki;
     index index.php index.html index.html;
  
     location ~ /(data|conf|bin|inc|vendor)/ {

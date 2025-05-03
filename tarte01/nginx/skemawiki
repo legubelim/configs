@@ -1,7 +1,7 @@
 
 server {
     server_name skemawiki.gkcb.fr;
-    root /mnt/SSD_externe/skemawiki;
+    root /mnt/SSD1/skemawiki;
     index index.php index.html index.html;
  
     location ~ /(data|conf|bin|inc|vendor)/ {

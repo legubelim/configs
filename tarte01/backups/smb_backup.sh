@@ -14,6 +14,7 @@ echo 'SMB  backup script'
 cd $WORK_DIR
 
 echo 'backuping files'
-duplicati-cli backup /mnt/SSD2/backups/shared /mnt/SSD_externe/shared --no-encryption --retention-policy='20Y:1Y' --exclude='/mnt/SSD2/backups/shared/films/' --exclude='/mnt/SSD2/backups/shared/tmp/'
+#duplicati-cli backup /mnt/SSD2/backups/shared /mnt/SSD1/shared --no-encryption --retention-policy='20Y:1Y' --exclude='/mnt/SSD2/backups/shared/films/' --exclude='/mnt/SSD2/backups/shared/tmp/'
+duplicati-cli backup /mnt/SSD2/backups/shared /mnt/SSD1/shared --no-encryption --retention-policy='20Y:1Y' --exclude='/mnt/SSD1/shared/films/' --exclude='/mnt/SSD1/shared/tmp/'
 echo "backup done"
 cd -

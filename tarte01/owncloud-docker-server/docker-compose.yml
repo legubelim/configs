@@ -1,11 +1,10 @@
-version: "3"
 
 volumes:
   files:
     driver: local
     #driver_opts:
     #  type: none
-    #  device: "/mnt/SSD_externe/owncloud/data"
+    #  device: "/mnt/SSD1/owncloud/data"
     #  o: bind
   mysql:
     driver: local
@@ -42,7 +41,7 @@ services:
       retries: 5
     volumes:
       #- files:/mnt/data
-      - /mnt/SSD_externe/owncloud/data:/mnt/data
+      - /mnt/SSD1/owncloud/data:/mnt/data
 
   mariadb:
     image: mariadb:10.11 # minimum required ownCloud version is 10.9

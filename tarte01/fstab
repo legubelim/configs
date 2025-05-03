@@ -1,23 +1,40 @@
 LABEL=writable	/	ext4	defaults	0	1
 LABEL=system-boot	/boot/firmware	vfat	defaults	0	1
 
-
+##############################
 ##### USB External drives ####
+##############################
+
 # seagate
-UUID=48C63F51C63F3F0E	/mnt/SSD_externe	ntfs	defaults,uid=www-data,gid=www-data,dmask=007	0	0
-# Samsung drive SSD2 externe
-#UUID=a7b60429-ebab-4460-9f98-b7e22fa95883	/mnt/SSD2	ext4	defaults,nofail	0	0
+UUID=48C63F51C63F3F0E	/mnt/SSD_externe	ntfs	defaults,uid=www-data,gid=www-data,dmask=007,nofail	0	0
+
+# Samsung drive SSD externes
+UUID=72e83d64-4e79-4396-a9fc-8e426df91332      /mnt/SSD1       ext4    defaults,nofail	0       0
+#UUID=a7b60429-ebab-4460-9f98-b7e22fa95883      /mnt/SSD2       ext4    defaults,nofail 0       0
 
 
-##### Freebox Samba drives
+###############################
+##### Freebox Samba drives ####
+###############################
+
 # Samsung drive SSD2 externe
-##//freebox-server.local/ssd2/   /mnt/SSD2       cifs    defaults,credentials=/root/.smbfreeboxcredentials,rw,auto,uid=tarte,gid=users,sec=ntlmssp,_netdev     0       0
 //freebox-server.local/ssd2/   /mnt/SSD2       cifs    defaults,credentials=/root/.smbfreeboxcredentials,nofail,rw,auto,uid=tarte,gid=users,sec=ntlmssp,_netdev     0       0
 # sudo mount -t cifs -o credentials=/root/.smbfreeboxcredentials,uid=tarte,gid=users,users,noauto,sec=ntlmssp,_netdev //freebox-server.local/ssd2 /mnt/SSD2
 
 # TrekStor (remove noauto to have it mounted at startup)
 //freebox-server.local/trekstor/   /mnt/TrekStor       cifs    defaults,credentials=/root/.smbfreeboxcredentials,nofail,rw,noauto,uid=tarte,gid=users,sec=ntlmssp,_netdev     0       0
 
-# USB key CIBOX for testing
+
+###################################
+#### USB key CIBOX for testing ####
+###################################
+
 #//freebox-server.local/usbkeycibox/   /media/usbkeycibox       cifs    credentials=/root/.smbfreeboxcredentials,users,noauto,uid=tarte,gid=users,sec=ntlm,_netdev	0	0
 # sudo mount -t cifs -o credentials=/root/.smbfreeboxcredentials,uid=tarte,gid=users //freebox-server.local/usbkeycibox /media/usbkeycibox
+
+##################
+#### Bindings ####
+################## 
+
+# to have docker volumes on the SSD drive
+/mnt/SSD1/docker/volumes	/var/lib/docker/volumes	none defaults,bind,nofail 0 0
