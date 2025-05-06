@@ -38,3 +38,6 @@ UUID=72e83d64-4e79-4396-a9fc-8e426df91332      /mnt/SSD1       ext4    defaults,
 
 # to have docker volumes on the SSD drive
 /mnt/SSD1/docker/volumes	/var/lib/docker/volumes	none defaults,bind,nofail 0 0
+
+# postfix mails
+#/mnt/SSD1/mail	/var/mail none defaults,bind,nofail 0 0

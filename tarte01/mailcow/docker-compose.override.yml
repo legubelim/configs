@@ -1,0 +1,19 @@
+
+services:
+  dovecot-mailcow:
+    volumes:
+      - ./data/assets/ssl:/etc/ssl/mail/:rw
+      - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
+      - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
+      #- /opt/data/nginx/certs/dhparam.pem:/etc/ssl/mail/dhparams.pem:ro
+  postfix-mailcow:
+    volumes:
+      - ./data/assets/ssl:/etc/ssl/mail/:rw
+      - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
+      - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
+  nginx-mailcow:
+    volumes:
+      - ./data/assets/ssl:/etc/ssl/mail/:rw
+      - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
+      - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
+
