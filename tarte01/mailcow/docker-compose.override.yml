@@ -1,19 +1,52 @@
 
 services:
   dovecot-mailcow:
+    restart: unless-stopped
     volumes:
       - ./data/assets/ssl:/etc/ssl/mail/:rw
       - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
       - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
       #- /opt/data/nginx/certs/dhparam.pem:/etc/ssl/mail/dhparams.pem:ro
   postfix-mailcow:
+    restart: unless-stopped
     volumes:
       - ./data/assets/ssl:/etc/ssl/mail/:rw
       - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
       - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
   nginx-mailcow:
+    restart: unless-stopped
     volumes:
       - ./data/assets/ssl:/etc/ssl/mail/:rw
       - /etc/letsencrypt/live/mail.gkcb.fr/fullchain.pem:/etc/ssl/mail/cert.pem:ro
       - /etc/letsencrypt/live/mail.gkcb.fr/privkey.pem:/etc/ssl/mail/key.pem:ro
+  ipv6nat-mailcow:
+    restart: unless-stopped
+  watchdog-mailcow:
+    restart: unless-stopped
+  acme-mailcow:
+    restart: unless-stopped
+  rspamd-mailcow:
+    restart: unless-stopped
+  ofelia-mailcow:
+    restart: unless-stopped
+  php-fpm-mailcow:
+    restart: unless-stopped
+  mysql-mailcow:
+    restart: unless-stopped
+  clamd-mailcow:
+    restart: unless-stopped
+  redis-mailcow:
+    restart: unless-stopped
+  memcached-mailcow:
+    restart: unless-stopped
+  unbound-mailcow:
+    restart: unless-stopped
+  olefy-mailcow:
+    restart: unless-stopped
+  netfilter-mailcow:
+    restart: unless-stopped
+  dockerapi-mailcow:
+    restart: unless-stopped
+  sogo-mailcow:
+    restart: unless-stopped
 

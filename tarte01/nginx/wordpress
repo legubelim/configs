@@ -1,0 +1,49 @@
+server {
+    server_name wordpress.gkcb.fr;
+
+    listen 443 ssl;
+    #listen [::]:443 ssl http2;
+    ssl_certificate /etc/letsencrypt/live/wordpress.gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/wordpress.gkcb.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    location / {
+	client_max_body_size 0;
+        proxy_pass http://127.0.0.1:8083;
+	proxy_set_header Host $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Host $server_name;
+	proxy_set_header X-Forwarded-Proto $scheme;
+	proxy_redirect off;
+        proxy_buffering off;
+
+	#proxy_set_header   X-Forwarded-Proto https;
+
+    }
+
+
+
+}
+
+server {
+    if ($host = wordpress.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }
+
+    server_name wordpress.gkcb.fr;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+
+
+}
+
+#server {
+#	listen 8094;
+#	root /var/www/html;
+#	index itworks.html;
+#}
+
