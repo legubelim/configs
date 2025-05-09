@@ -12,7 +12,7 @@ server {
 
     location / {
         #proxy_pass https://wiki.gkcb.fr;
-        return 301 https://wordpress.gkcb.fr;
+        return 301 https://blog.gkcb.fr;
     }
 
     listen 443 ssl; # managed by Certbot
