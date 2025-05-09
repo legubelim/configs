@@ -1,5 +1,5 @@
 server {
-    server_name wordpress.gkcb.fr;
+    server_name wordpress.gkcb.fr blog.gkcb.fr;
 
     listen 443 ssl;
     #listen [::]:443 ssl http2;
@@ -25,6 +25,8 @@ server {
 
 
 
+
+
 }
 
 server {
@@ -32,9 +34,17 @@ server {
         return 301 https://$host$request_uri;
     }
 
-    server_name wordpress.gkcb.fr;
+    if ($host = blog.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    }
+
+    server_name wordpress.gkcb.fr blog.gkcb.fr;
     listen 80;
     return 404; # managed by Certbot
+
+
+
+
 
 
 
