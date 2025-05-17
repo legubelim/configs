@@ -5,4 +5,8 @@
 /join #gkcb
 
 
+## change display names for users
+sudo chfn -f 'root@tarte01' root
+sudo chfn -f 'tarte@tarte01' tarte
+
 

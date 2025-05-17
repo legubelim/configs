@@ -1,0 +1,39 @@
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+
+# owncloud backups
+0 3 * * * /home/tarte/scripts/owncloud-docker-server/owncloud_backup.sh >> /home/tarte/scripts/owncloud-docker-server/owncloud_backup.log 2>&1
+
+# backup of critical stuff to dropbox
+0 2 * * * /home/tarte/scripts/backups/dropbox_backup.sh >> /home/tarte/scripts/backups/dropbox_backup.log 2>&1
+
+# backup for Samba
+#0 5 * * * /home/tarte/scripts/backups/smb_backup.sh >> /home/tarte/scripts/backups//smb_backup.log 2>&1
+
+# backup mailcow
+0 4 * * * MAILCOW_BACKUP_LOCATION=/mnt/SSD2/backups/mailcow /opt/mailcow-dockerized/helper-scripts/backup_and_restore.sh backup all --delete-days 30 >> /opt/mailcow-dockerized/mailcow_backup.log 2>&1
+
+# backup dokuwiki
+0 6 * * * /opt/dokuwiki/dokuwiki_backup.sh
+
