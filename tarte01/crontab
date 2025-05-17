@@ -23,16 +23,16 @@
 # m h  dom mon dow   command
 
 # owncloud backups
-0 3 * * * /home/tarte/scripts/owncloud-docker-server/owncloud_backup.sh >> /home/tarte/scripts/owncloud-docker-server/owncloud_backup.log 2>&1
+0 3 * * * /opt/owncloud-docker-server/owncloud_backup.sh
 
 # backup of critical stuff to dropbox
-0 2 * * * /home/tarte/scripts/backups/dropbox_backup.sh >> /home/tarte/scripts/backups/dropbox_backup.log 2>&1
+0 2 * * * /opt/dropbox/dropbox_backup.sh
 
 # backup for Samba
 #0 5 * * * /home/tarte/scripts/backups/smb_backup.sh >> /home/tarte/scripts/backups//smb_backup.log 2>&1
 
 # backup mailcow
-0 4 * * * MAILCOW_BACKUP_LOCATION=/mnt/SSD2/backups/mailcow /opt/mailcow-dockerized/helper-scripts/backup_and_restore.sh backup all --delete-days 30 >> /opt/mailcow-dockerized/mailcow_backup.log 2>&1
+0 4 * * * /opt/mailcow-dockerized/mailcow_backup.sh
 
 # backup dokuwiki
 0 6 * * * /opt/dokuwiki/dokuwiki_backup.sh

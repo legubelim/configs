@@ -2,26 +2,37 @@
 
 ## Crontab entry
 #sudo crontab -e
-#0 4 * * * /home/tarte/scripts/owncloud-docker-server/owncloud_backup.sh >> /home/tarte/scripts/owncloud-docker-server/owncloud_backup.log 2>&1
+#0 4 * * * /opt/owncloud-docker-server/owncloud_backup.sh >> /opt/owncloud-docker-server/owncloud_backup.log 2>&1
 
 
-WORK_DIR=/home/tarte/scripts/owncloud-docker-server
+WORK_DIR=/opt/owncloud-docker-server
+SCRIPT=$(basename "$0")
+OUTPUT=$WORK_DIR/logs/backup.log # in case of early failure
 
 set -e
+exit_handler() {
+    # in case of error send email with the content of the log file
+    ERROR_CODE=$?
+    cd $WORK_DIR; docker compose start # anyway restart the service
+    [ $ERROR_CODE -eq 0 ] && exit 0 || ( echo "ERROR $ERROR_CODE: sending email" ; (cat $OUTPUT || echo "log file $OUTPUT not found") | mail -s "$SCRIPT returned error $ERROR_CODE" guillaume@gkcb.fr,glegrand@gmx.net )
+}
+trap exit_handler EXIT
 
-echo 'OwnCloud backup script'
+# logging in a dedicated file
+TS=`date "+%Y-%m-%d_%H-%M-%S"`
+OUTPUT=$WORK_DIR/logs/backup_${TS}.log
+exec >> $OUTPUT 2>&1
 
+# running the backup
 cd $WORK_DIR
-#trap 'docker compose start' ERR
-trap "cd $WORK_DIR; docker compose start" EXIT
-
-echo 'stopping owncloud'
+echo "#### Start of backup of OwnCloud on $TS"
+echo '## stopping owncloud'
 docker compose stop
-echo 'backuping files'
-duplicati-cli backup /mnt/SSD2/backups/owncloud/files /mnt/SSD1/owncloud --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y'
-echo 'backuping mysql'
-duplicati-cli backup /mnt/SSD2/backups/owncloud/mysql /var/lib/docker/volumes/owncloud-docker-server_mysql --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y'
-echo 'backuping redis'
-duplicati-cli backup /mnt/SSD2/backups/owncloud/redis /var/lib/docker/volumes/owncloud-docker-server_redis --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y'
-echo 'backup done'
+echo '## backuping files'
+duplicati-cli backup /mnt/SSD2/backups/owncloud/files /mnt/SSD1/owncloud --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y' || [ $? -eq 1 ] # returns 1 if no change
+echo '## backuping mysql'
+duplicati-cli backup /mnt/SSD2/backups/owncloud/mysql /var/lib/docker/volumes/owncloud-docker-server_mysql --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y' || [ $? -eq 1 ] # returns 1 if no change
+echo '## backuping redis'
+duplicati-cli backup /mnt/SSD2/backups/owncloud/redis /var/lib/docker/volumes/owncloud-docker-server_redis --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y' || [ $? -eq 1 ] # returns 1 if no change
+echo "#### End of backup of OwnCloud"
 cd -

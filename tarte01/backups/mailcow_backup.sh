@@ -2,9 +2,9 @@
 
 ## Crontab entry
 #sudo crontab -e
-#0 6 * * * /opt/dokuwiki/dokuwiki_backup.sh
+#0 4 * * * /opt/mailcow-dockerized/mailcow_backup.sh
 
-WORK_DIR=/opt/dokuwiki
+WORK_DIR=/opt/mailcow-dockerized
 SCRIPT=$(basename "$0")
 OUTPUT=$WORK_DIR/logs/backup.log 
 
@@ -23,7 +23,8 @@ exec >> $OUTPUT 2>&1
 
 # running the backup
 cd $WORK_DIR
-echo "#### Start of backup at $TS"
-duplicati-cli backup /mnt/SSD2/backups/dokuwiki /mnt/SSD1/dokuwiki --no-encryption --retention-policy='1W:1D,4W:1W,12M:1M,20Y:1Y' || [ $? -eq 1 ] # returns 1 if no change
+echo "#### Start of backup on $TS"
+MAILCOW_BACKUP_LOCATION=/mnt/SSD2/backups/mailcow /opt/mailcow-dockerized/helper-scripts/backup_and_restore.sh backup all --delete-days 30
 echo "#### End of backup"
 cd -
+
