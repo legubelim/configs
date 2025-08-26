@@ -3,6 +3,7 @@ services:
   db:
     build: ./db
     container_name: db
+    restart: unless-stopped
     ports:
       - "3306:3306"
     volumes:
@@ -21,6 +22,7 @@ services:
   wordpress:
     build: .
     container_name: wordpress_new
+    restart: unless-stopped
     ports:
       - "8083:80"
     networks: 

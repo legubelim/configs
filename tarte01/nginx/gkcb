@@ -1,5 +1,5 @@
 server {
-    server_name gkcb.fr www.gkcb.fr;
+    server_name dev.gkcb.fr;
 
     location = /favicon.ico {
         alias /var/www/images/favicon.ico;
@@ -12,20 +12,49 @@ server {
 
     location / {
         #proxy_pass https://wiki.gkcb.fr;
+        return 301 https://wiki.gkcb.fr/doku.php?id=dev;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/dev.gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/dev.gkcb.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+server {
+    server_name gkcb.fr;
+
+    location = /favicon.ico {
+        alias /var/www/images/favicon.ico;
+    }
+
+    location /pywer4 {
+        return 301 https://dev.gkcb.fr/pywer4;
+    }
+
+    location / {
         return 301 https://blog.gkcb.fr;
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/guillaume.gkcb.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/guillaume.gkcb.fr/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/gkcb.fr/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
+
+
 }
 
-
 server {
-    server_name benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr;
+    server_name www.gkcb.fr benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr calmette.gkcb.fr tarte01.gkcb.fr;
+
+    location = /favicon.ico {
+        alias /var/www/images/favicon.ico;
+    }
 
     if ($host = benjamin.gkcb.fr) {
         return 301 https://wiki.gkcb.fr/doku.php?id=benjamin;
@@ -43,15 +72,56 @@ server {
         return 301 https://wiki.gkcb.fr/doku.php?id=guillaume;
     }
 
+    if ($host = calmette.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=calmette;
+    }
+
+    if ($host = calmette.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=calmette;
+    }
+
+    if ($host = tarte01.gkcb.fr) {
+        return 301 https://wiki.gkcb.fr/doku.php?id=tarte01;
+    }
+
+    if ($host = www.gkcb.fr) {
+        return 301 https://blog.gkcb.fr;
+    }
+
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/guillaume.gkcb.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/guillaume.gkcb.fr/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/gkcb.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/gkcb.fr/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
+
+
+
+
+
+
+
+
+
 }
 
+
 server {
+    if ($host = tarte01.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = calmette.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = dev.gkcb.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
     if ($host = gkcb.fr) {
         return 301 https://#host$request_uri;
     } 
@@ -76,7 +146,7 @@ server {
         return 301 https://$host$request_uri;
     }  
 
-    server_name gkcb.fr www.gkcb.fr benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr;
+    server_name gkcb.fr www.gkcb.fr benjamin.gkcb.fr camille.gkcb.fr karine.gkcb.fr guillaume.gkcb.fr dev.gkcb.fr calmette.gkcb.fr tarte01.gkcb.fr;
     listen 80;
     return 404; # managed by Certbot
 

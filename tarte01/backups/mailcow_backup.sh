@@ -7,6 +7,7 @@
 WORK_DIR=/opt/mailcow-dockerized
 SCRIPT=$(basename "$0")
 OUTPUT=$WORK_DIR/logs/backup.log 
+BACKUP_DRIVE=/mnt/SSD2
 
 set -e
 exit_handler() {
@@ -21,10 +22,13 @@ TS=`date "+%Y-%m-%d_%H-%M-%S"`
 OUTPUT=${WORK_DIR}/logs/backup_${TS}.log
 exec >> $OUTPUT 2>&1
 
+# checking if the target drive is mounted and mount it if necessary
+findmnt $BACKUP_DRIVE || mount $BACKUP_DRIVE
+
 # running the backup
 cd $WORK_DIR
 echo "#### Start of backup on $TS"
-MAILCOW_BACKUP_LOCATION=/mnt/SSD2/backups/mailcow /opt/mailcow-dockerized/helper-scripts/backup_and_restore.sh backup all --delete-days 30
+MAILCOW_BACKUP_LOCATION=$BACKUP_DRIVE/backups/mailcow /opt/mailcow-dockerized/helper-scripts/backup_and_restore.sh backup all --delete-days 30
 echo "#### End of backup"
 cd -
 
