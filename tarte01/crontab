@@ -37,3 +37,6 @@
 # backup dokuwiki
 0 6 * * * /opt/dokuwiki/dokuwiki_backup.sh
 
+# regular reboot
+0 1 * * * /sbin/shutdown -r
+
